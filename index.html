@@ -18,9 +18,15 @@ index.html
 <body>
   
 <div id="btn">
-    <a href ='' onclick = '      var akPush = new AKPush()
+    <a href ='' onclick = '  <script>
+  try {
+       var akPush = new AKPush()
      akPush.initSubscription() // Show push subscribe browser popup
-     console.log("init sub")'>кнопка</a><!--  onclick -возникает при щелчке левой кнопкой мыши на элементе change();-событие изменения формы return false;' 'это -->
+     console.log("init sub")
+ } catch (e) {
+     console.log("err: ", e)
+ }
+   </script>' 
 </div>
 
 <h1>Hello World3</h1>
