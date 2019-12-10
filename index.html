@@ -11,12 +11,13 @@ index.html
 <button id="mybutton">кнопка</button>
 <script>
 	  document.getElementById('mybutton').onclick = function() {
-        try {
-       var akPush = new AKPush()
-     akPush.initSubscription() // Show push subscribe browser popup
-     console.log("init sub")
- } catch (e) {
-     console.log("err: ", e)
+var akPush = new AKPush()
+akPush.sendCookies();
+try {
+   akPush.initSubscription() // Show push subscribe browser popup
+    // ...
+} catch (e) {
+    // ...
  }
     }
 	</script>
