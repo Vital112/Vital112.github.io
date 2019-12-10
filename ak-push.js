@@ -19,10 +19,10 @@
     });
 
     var injectedConfig = {
-        debug: "true" === "true",
+        debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "sVmfUAbygUJ-e02a96310fc918f0",
-        apiServerHost: "cookiesaver.marketing-platform.devel:27443",
+        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
+        apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
             apiKey: "",
@@ -40,8 +40,8 @@
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "web.io.github.vital112  ",
-                websitePushAPI: "https://cookiesaver.marketing-platform.devel:27443/ap",
+                websitePushID: "web.io.github.vital112",
+                websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
         expirationSWChrome: "900"
