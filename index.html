@@ -22,14 +22,10 @@ index.html
 <button id="mybutton">кнопка</button>
 <script language="javascript"><!--
 
-    document.getElementById('mybutton').onclick = 
-            try {
+    document.getElementById('mybutton').onclick =
        var akPush = new AKPush()
      akPush.initSubscription() // Show push subscribe browser popup
      console.log("init sub")
- } catch (e) {
-     console.log("err: ", e)
- 
     }
 //--></script>
  
