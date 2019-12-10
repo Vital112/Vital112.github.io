@@ -17,14 +17,21 @@ index.html
     </head>
 <body>
   
-<div id="btn">
-    <a href ='' onclick = 
-  'try {
-       var akPush = new AKPush()
+		 
+
+<button id="mybutton">кнопка</button>
+05
+<script language="javascript"><!--
+
+    document.getElementById('mybutton').onclick = function() {
+          var akPush = new AKPush()
      akPush.initSubscription() // Show push subscribe browser popup
      console.log("init sub")
- } '
-</div>
+    }
+//--></script>
+ 
+
+
 
 <h1>Hello World3</h1>
 <p>I'm hosted with GitHub Pages.</p>
