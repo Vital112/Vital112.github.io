@@ -12,9 +12,24 @@ index.html
 <script>
 	  document.getElementById('mybutton').onclick = function() {
 var akPush = new AKPush()
-akPush.sendCookies();
+
 try {
    akPush.initSubscription() // Show push subscribe browser popup
+   console.log("success")
+} catch (e) {
+   console.log(e);
+ }
+    }
+	</script>
+	
+	
+	<button id="mybut">кнопка</button>
+<script>
+	  document.getElementById('mybut').onclick = function() {
+var akPush = new AKPush()
+
+try {
+   akPush.sendCookies();// Show push subscribe browser popup
    console.log("success")
 } catch (e) {
    console.log(e);
