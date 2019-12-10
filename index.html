@@ -22,7 +22,7 @@ index.html
 <button id="mybutton">кнопка</button>
 <script language="javascript"><!--
 
-    document.getElementById('mybutton').onclick =
+    document.getElementById('mybutton').onclick = function() {
        var akPush = new AKPush()
      akPush.initSubscription() // Show push subscribe browser popup
      console.log("init sub")
