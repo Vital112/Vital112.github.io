@@ -5,38 +5,21 @@ index.html
     <script type="text/javascript" src="/ak-push.js"></script>
 <link rel="manifest" href="/manifest.json"></link>
   
-  <script>
-  try {
+    </head>
+<body> 
+
+<button id="mybutton">кнопка</button>
+<script>
+	  document.getElementById('mybutton').onclick = function() {
+        try {
        var akPush = new AKPush()
      akPush.initSubscription() // Show push subscribe browser popup
      console.log("init sub")
  } catch (e) {
      console.log("err: ", e)
  }
-   </script>
-    </head>
-<body>
-  
-		 
-
-<button id="mybutton">кнопка</button>
-<script>
-	  document.getElementById('mybutton').onclick = function() {
-       var akPush = new AKPush()
-     akPush.initSubscription() // Show push subscribe browser popup
-     console.log("init sub")
     }
 	</script>
- 
-<button id="mybutton">кнопка</button>
-<script>
-    document.getElementById('mybutton').onclick = function() {
-        alert('Клик')
-    }
-</script>
-
-
-
 
 <h1>Hello World3</h1>
 <p>I'm hosted with GitHub Pages.</p>
