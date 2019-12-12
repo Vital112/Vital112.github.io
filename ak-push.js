@@ -21,17 +21,17 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
+        resourceToken: "t6CjAyZA1ap-85b9057f32a7bed7",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "",
-            projectId: "",
-            messagingSenderId: "",
+            apiKey: "AIzaSyDQ-6DIx_c6HaSPzLo5t9gGBBX9Nungn3U",
+            projectId: "test-4c1df",
+            messagingSenderId: "571523634324",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
@@ -40,7 +40,7 @@
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "web.io.github.vital112",
+                websitePushID: "",
                 websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
@@ -408,11 +408,12 @@
                     }
                     break;
                 case "Safari":
-                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari");
-                    // 17:14
-                    let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData);
-                    that.initialiseSafariPush(permissionData, match, update, '120839d2f7cb468ba19c9f7baf172b39', customData);
+                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
+                    this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
+                        let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                        that.debug("Permission data: ", permissionData)
+                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
+                    });
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
