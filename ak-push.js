@@ -1,7 +1,7 @@
 // Usage:
-// var akPush = new AKPush()
-// akPush.sendCookies();
+//
 // try {
+//     var akPush = new AKPush()
 //     akPush.initSubscription() // Show push subscribe browser popup
 //     // ...
 // } catch (e) {
@@ -21,17 +21,17 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
+        resourceToken: "t6CjAyZA1ap-85b9057f32a7bed7",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "",
-            projectId: "",
-            messagingSenderId: "",
+            apiKey: "AIzaSyDQ-6DIx_c6HaSPzLo5t9gGBBX9Nungn3U",
+            projectId: "test-4c1df",
+            messagingSenderId: "571523634324",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
@@ -40,7 +40,7 @@
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "web.io.github.vital112",
+                websitePushID: "",
                 websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
@@ -121,7 +121,6 @@
             serverCookiePath: "/pixel?" + ["_push_pix", "/set_cookie_only"].join("="),
             swPath: "/service-worker.js",
             isTest: false,
-            cookieID: "",
             debug: false,
             browsers: {},
             firebase: {
@@ -184,7 +183,7 @@
             })
         }
 
-        this.sendCookies = function() {
+        this.sendCookies = function(callback) {
             fetch(this.config.serverURL + this.config.serverCookiePath, {
                 method: 'post',
                 credentials: 'include',
@@ -193,7 +192,7 @@
                 return response.json();
             }).then(function(data) {
                 if ('cookie_id' in data) {
-                    that.config.cookieID = data['cookie_id']
+                    callback(data['cookie_id']);
                 } else {
                     console.error('Invalid response for set cookie:', data);
                 }
@@ -410,9 +409,11 @@
                     break;
                 case "Safari":
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
-                    let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData)
-                    that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
+                    this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
+                        let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                        that.debug("Permission data: ", permissionData)
+                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
+                    });
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
