@@ -1,7 +1,7 @@
 // Usage:
-//
+// var akPush = new AKPush()
+// akPush.sendCookies();
 // try {
-//     var akPush = new AKPush()
 //     akPush.initSubscription() // Show push subscribe browser popup
 //     // ...
 // } catch (e) {
@@ -121,6 +121,7 @@
             serverCookiePath: "/pixel?" + ["_push_pix", "/set_cookie_only"].join("="),
             swPath: "/service-worker.js",
             isTest: false,
+            cookieID: "",
             debug: false,
             browsers: {},
             firebase: {
@@ -183,8 +184,8 @@
             })
         }
 
-        this.sendCookies = function(callback) {
-            fetch(this.config.serverURL + this.config.serverCookiePath, {
+        this.sendCookies = function() {
+            return fetch(this.config.serverURL + this.config.serverCookiePath, {
                 method: 'post',
                 credentials: 'include',
                 body: JSON.stringify({ 'resource_token': this.config.resourceToken }),
@@ -192,7 +193,7 @@
                 return response.json();
             }).then(function(data) {
                 if ('cookie_id' in data) {
-                    callback(data['cookie_id']);
+                    that.config.cookieID = data['cookie_id']
                 } else {
                     console.error('Invalid response for set cookie:', data);
                 }
@@ -409,10 +410,12 @@
                     break;
                 case "Safari":
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
-                    this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
+                    let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                    that.debug("Permission data: ", permissionData)
+                    this.sendCookies().then(function () {
                         let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData)
-                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
+                        that.debug("Permission data: ", permissionData);
+                        that.initialiseSafariPush(permissionData, match, update, that.config.cookieID, customData);
                     });
                     break;
                 default:
