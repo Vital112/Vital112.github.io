@@ -184,7 +184,8 @@
             })
         }
 
-        this.sendCookies = function() {
+
+        this.sendCookies = function(callback) {
             fetch(this.config.serverURL + this.config.serverCookiePath, {
                 method: 'post',
                 credentials: 'include',
@@ -193,7 +194,7 @@
                 return response.json();
             }).then(function(data) {
                 if ('cookie_id' in data) {
-                    that.config.cookieID = data['cookie_id']
+                    callback(data['cookie_id']);
                 } else {
                     console.error('Invalid response for set cookie:', data);
                 }
@@ -409,59 +410,14 @@
                     }
                     break;
                 case "Safari":
+                    //16:29
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
-                    //16:25
-                    fetch(that.config.serverURL + that.config.serverCookiePath, {
-                        method: 'post',
-                        credentials: 'include',
-                        body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
-                    }).then(function(response) {
-                        return response.json();
-                    }).then(function(data) {
-                        if ('cookie_id' in data) {
-                            let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                            that.config.cookieID = data['cookie_id'];
-                            that.debug("Permission data: ", permissionData);
-                            switch (permissionData.permission) {
-                                case 'default':
-                                    window.safari.pushNotification.requestPermission(
-                                        that.config.browsers.Safari.websitePushAPI,
-                                        that.config.browsers.Safari.websitePushID,
-                                        Object.assign({}, customData || {}, {
-                                            'resource_token': that.config.resourceToken,
-                                            'cookie_id': that.config.cookieID,
-                                            'match': JSON.stringify(match || {}),
-                                            'update': JSON.stringify(update || {}),
-                                            'is_test': JSON.stringify(that.config.isTest),
-                                        }),
-                                        function(permissionData) {
-                                            that.debug("New permissionData: ", permissionData)
-                                            that.initialiseSafariPush(permissionData, match, update, that.config.cookieID, customData);
-                                        }
-                                    );
-                                    break;
-                                case 'denied':
-                                    // The user said no
-                                    that.debug("Denied subscription")
-                                    break;
-                                case 'granted':
-                                    // The web service URL is a valid push provider, and the user said yes.
-                                    // permissionData.deviceToken is now available to use.
-                                    that.debug("Approved subscription")
-                                    if (typeof callback === 'function') {
-                                        callback(permissionData.deviceToken);
-                                    }
-                                    break;
-                                default:
-                                    console.error("Unexpected: ", permissionData.permission)
-                            }
-                        } else {
-                            console.error('Invalid response for set cookie:', data);
-                        }
-                    }).catch(function(e) {
-                        console.error('Unable to set cookie', e);
+                    this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
+                        let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                        that.debug("Permission data: ", permissionData);
+                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
                     });
                     break;
                 default:
