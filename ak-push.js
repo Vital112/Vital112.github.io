@@ -1,7 +1,7 @@
 // Usage:
-// var akPush = new AKPush()
-// akPush.sendCookies();
+//
 // try {
+//     var akPush = new AKPush()
 //     akPush.initSubscription() // Show push subscribe browser popup
 //     // ...
 // } catch (e) {
@@ -121,7 +121,6 @@
             serverCookiePath: "/pixel?" + ["_push_pix", "/set_cookie_only"].join("="),
             swPath: "/service-worker.js",
             isTest: false,
-            cookieID: "",
             debug: false,
             browsers: {},
             firebase: {
@@ -183,7 +182,6 @@
                 console.error("Can't post", action, e)
             })
         }
-
 
         this.sendCookies = function(callback) {
             fetch(this.config.serverURL + this.config.serverCookiePath, {
@@ -410,13 +408,10 @@
                     }
                     break;
                 case "Safari":
-                    //16:29
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
-                    let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData);
                     this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
                         let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData);
+                        that.debug("Permission data: ", permissionData)
                         that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
                     });
                     break;
