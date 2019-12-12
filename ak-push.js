@@ -304,16 +304,15 @@
 
         this.subscribeBasic = function(match, update, customData) {
             navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-                serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true }).then(
-                    function(subscription) {
-                        that.sendSubscription("save", that.config.browser, subscription, match, update, customData);
-                    }, function(err) {
-                        if (Notification.permission === 'denied') {
-                            console.log('User turned off notifications');
-                        } else {
-                            console.error('Unable to subscribe', err);
-                        }
-                    });
+                serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true }).then(function(subscription) {
+                    that.sendSubscription("save", that.config.browser, subscription, match, update, customData);
+                }).catch(function(err) {
+                    if (Notification.permission === 'denied') {
+                        console.log('User turned off notifications');
+                    } else {
+                        console.error('Unable to subscribe', err);
+                    }
+                });
             });
         };
 
