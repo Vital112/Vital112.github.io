@@ -265,41 +265,41 @@
             );
         };
 
-        // this.initialiseSafariPush = function(permissionData, match, update, cookieId, customData, callback) {
-        //     switch (permissionData.permission) {
-        //         case 'default':
-        //             window.safari.pushNotification.requestPermission(
-        //                 this.config.browsers.Safari.websitePushAPI,
-        //                 this.config.browsers.Safari.websitePushID,
-        //                 Object.assign({}, customData || {}, {
-        //                     'resource_token': this.config.resourceToken,
-        //                     'cookie_id': cookieId,
-        //                     'match': JSON.stringify(match || {}),
-        //                     'update': JSON.stringify(update || {}),
-        //                     'is_test': JSON.stringify(this.config.isTest),
-        //                 }),
-        //                 function(permissionData) {
-        //                     that.debug("New permissionData: ", permissionData)
-        //                     that.initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
-        //                 }
-        //             );
-        //             break;
-        //         case 'denied':
-        //             // The user said no
-        //             that.debug("Denied subscription")
-        //             break;
-        //         case 'granted':
-        //             // The web service URL is a valid push provider, and the user said yes.
-        //             // permissionData.deviceToken is now available to use.
-        //             that.debug("Approved subscription")
-        //             if (typeof callback === 'function') {
-        //                 callback(permissionData.deviceToken);
-        //             }
-        //             break;
-        //         default:
-        //             console.error("Unexpected: ", permissionData.permission)
-        //     }
-        // };
+        this.initialiseSafariPush = function(permissionData, match, update, cookieId, customData, callback) {
+            switch (permissionData.permission) {
+                case 'default':
+                    window.safari.pushNotification.requestPermission(
+                        this.config.browsers.Safari.websitePushAPI,
+                        this.config.browsers.Safari.websitePushID,
+                        Object.assign({}, customData || {}, {
+                            'resource_token': this.config.resourceToken,
+                            'cookie_id': cookieId,
+                            'match': JSON.stringify(match || {}),
+                            'update': JSON.stringify(update || {}),
+                            'is_test': JSON.stringify(this.config.isTest),
+                        }),
+                        function(permissionData) {
+                            that.debug("New permissionData: ", permissionData)
+                            that.initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
+                        }
+                    );
+                    break;
+                case 'denied':
+                    // The user said no
+                    that.debug("Denied subscription")
+                    break;
+                case 'granted':
+                    // The web service URL is a valid push provider, and the user said yes.
+                    // permissionData.deviceToken is now available to use.
+                    that.debug("Approved subscription")
+                    if (typeof callback === 'function') {
+                        callback(permissionData.deviceToken);
+                    }
+                    break;
+                default:
+                    console.error("Unexpected: ", permissionData.permission)
+            }
+        };
 
         this.subscribeBasic = function(match, update, customData) {
             navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
@@ -411,8 +411,8 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
                         let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData);
-                        initialiseSafariPush(permissionData, match, update, cookieId, customData);
+                        that.debug("Permission data: ", permissionData)
+                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
                     });
                     break;
                 default:
@@ -429,42 +429,6 @@
                 });
             }
         };
-    }
-
-    window.initialiseSafariPush = function (permissionData, match, update, cookieId, customData, callback) {
-        switch (permissionData.permission) {
-            case 'default':
-                window.safari.pushNotification.requestPermission(
-                    AKPush.config.browsers.Safari.websitePushAPI,
-                    AKPush.config.browsers.Safari.websitePushID,
-                    Object.assign({}, customData || {}, {
-                        'resource_token': AKPush.config.resourceToken,
-                        'cookie_id': cookieId,
-                        'match': JSON.stringify(match || {}),
-                        'update': JSON.stringify(update || {}),
-                        'is_test': JSON.stringify(AKPush.config.isTest),
-                    }),
-                    function(permissionData) {
-                        AKPush.debug("New permissionData: ", permissionData);
-                        initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
-                    }
-                );
-                break;
-            case 'denied':
-                // The user said no
-                that.debug("Denied subscription");
-                break;
-            case 'granted':
-                // The web service URL is a valid push provider, and the user said yes.
-                // permissionData.deviceToken is now available to use.
-                that.debug("Approved subscription")
-                if (typeof callback === 'function') {
-                    callback(permissionData.deviceToken);
-                }
-                break;
-            default:
-                console.error("Unexpected: ", permissionData.permission)
-        }
     }
 
     if (typeof(window.AKPush) === 'undefined') {
