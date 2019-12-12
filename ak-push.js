@@ -412,6 +412,7 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
+                    //16:17
                     fetch(that.config.serverURL + that.config.serverCookiePath, {
                         method: 'post',
                         credentials: 'include',
