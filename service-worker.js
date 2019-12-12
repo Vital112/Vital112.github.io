@@ -12,10 +12,10 @@
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Opera": {
                 isFirebase: "true" === "true"
