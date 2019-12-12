@@ -411,8 +411,22 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
                         let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData)
-                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
+                        that.debug("Permission data: ", permissionData);
+                        fetch(that.config.serverURL + that.config.serverCookiePath, {
+                            method: 'post',
+                            credentials: 'include',
+                            body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
+                        }).then(function(response) {
+                            return response.json();
+                        }).then(function(data) {
+                            if ('cookie_id' in data) {
+                                that.initialiseSafariPush(permissionData, match, update, data['cookie_id'], customData);
+                            } else {
+                                console.error('Invalid response for set cookie:', data);
+                            }
+                        }).catch(function(e) {
+                            console.error('Unable to set cookie', e);
+                        });
                     });
                     break;
                 default:
