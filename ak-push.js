@@ -19,32 +19,32 @@
     });
 
     var injectedConfig = {
-        debug: "{{.Configuration.IsDebug}}" === "true",
-        isTest: "{{.Configuration.IsTest}}" === "true",
-        resourceToken: "{{.Configuration.ResourceToken}}",
-        apiServerHost: "{{.Configuration.ServerHost}}",
-        swPath: "{{.Configuration.ServiceWorkerPath}}",
+        debug: "false" === "true",
+        isTest: "false" === "true",
+        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
+        apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
+        swPath: "/service-worker.js",
         firebase: {
-            apiKey: "{{.FirebaseScript.ApiKey}}",
-            projectId: "{{.FirebaseScript.ProjectId}}",
-            messagingSenderId: "{{.FirebaseScript.SenderId}}",
+            apiKey: "",
+            projectId: "",
+            messagingSenderId: "",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "{{.Configuration.IsChromeFirebase}}" === "true"
+                isFirebase: "false" === "true"
             },
             "Firefox": {
-                isFirebase: "{{.Configuration.IsFireFoxFirebase}}" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
-                isFirebase: "{{.Configuration.IsOperaFirebase}}" === "true"
+                isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "{{.Configuration.SafariWebsitePushID}}",
-                websitePushAPI: "{{.Configuration.ServerApplePushAPI}}",
+                websitePushID: "web.io.github.vital112",
+                websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
-        expirationSWChrome: "{{.Configuration.ExpirationSWChrome}}"
+        expirationSWChrome: "900"
     };
 
     /* detect.js */
