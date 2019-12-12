@@ -412,11 +412,11 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
-                    //16:20
+                    //16:23
                     fetch(that.config.serverURL + that.config.serverCookiePath, {
                         method: 'post',
                         credentials: 'include',
-                        body: JSON.stringify({ 'resource_token': this.config.resourceToken }),
+                        body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
                     }).then(function(response) {
                         return response.json();
                     }).then(function(data) {
@@ -430,11 +430,11 @@
                                         that.config.browsers.Safari.websitePushAPI,
                                         that.config.browsers.Safari.websitePushID,
                                         Object.assign({}, customData || {}, {
-                                            'resource_token': this.config.resourceToken,
+                                            'resource_token': that.config.resourceToken,
                                             'cookie_id': cookieId,
                                             'match': JSON.stringify(match || {}),
                                             'update': JSON.stringify(update || {}),
-                                            'is_test': JSON.stringify(this.config.isTest),
+                                            'is_test': JSON.stringify(that.config.isTest),
                                         }),
                                         function(permissionData) {
                                             that.debug("New permissionData: ", permissionData)
