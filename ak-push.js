@@ -445,14 +445,14 @@
                         'is_test': JSON.stringify(AKPush.config.isTest),
                     }),
                     function(permissionData) {
-                        that.debug("New permissionData: ", permissionData)
+                        AKPush.debug("New permissionData: ", permissionData);
                         initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
                     }
                 );
                 break;
             case 'denied':
                 // The user said no
-                that.debug("Denied subscription")
+                that.debug("Denied subscription");
                 break;
             case 'granted':
                 // The web service URL is a valid push provider, and the user said yes.
