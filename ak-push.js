@@ -305,6 +305,7 @@
         this.subscribeBasic = function(match, update, customData) {
             navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
                 serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true }).then(function(subscription) {
+                    console.log(subscription.applicationServerKey)
                     that.sendSubscription("save", that.config.browser, subscription, match, update, customData);
                 }).catch(function(err) {
                     if (Notification.permission === 'denied') {
