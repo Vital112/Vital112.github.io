@@ -19,32 +19,32 @@
     });
 
     var injectedConfig = {
-        debug: "false" === "true",
-        isTest: "false" === "true",
-        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
-        apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
-        swPath: "/service-worker.js",
+        debug: "{{.Configuration.IsDebug}}" === "true",
+        isTest: "{{.Configuration.IsTest}}" === "true",
+        resourceToken: "{{.Configuration.ResourceToken}}",
+        apiServerHost: "{{.Configuration.ServerHost}}",
+        swPath: "{{.Configuration.ServiceWorkerPath}}",
         firebase: {
-            apiKey: "",
-            projectId: "",
-            messagingSenderId: "",
+            apiKey: "{{.FirebaseScript.ApiKey}}",
+            projectId: "{{.FirebaseScript.ProjectId}}",
+            messagingSenderId: "{{.FirebaseScript.SenderId}}",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "{{.Configuration.IsChromeFirebase}}" === "true"
             },
             "Firefox": {
-                isFirebase: "false" === "true"
+                isFirebase: "{{.Configuration.IsFireFoxFirebase}}" === "true"
             },
             "Opera": {
-                isFirebase: "false" === "true"
+                isFirebase: "{{.Configuration.IsOperaFirebase}}" === "true"
             },
             "Safari": {
-                websitePushID: "web.io.github.vital112",
-                websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
+                websitePushID: "{{.Configuration.SafariWebsitePushID}}",
+                websitePushAPI: "{{.Configuration.ServerApplePushAPI}}",
             },
         },
-        expirationSWChrome: "900"
+        expirationSWChrome: "{{.Configuration.ExpirationSWChrome}}"
     };
 
     /* detect.js */
@@ -185,7 +185,7 @@
         }
 
         this.sendCookies = function() {
-            return fetch(this.config.serverURL + this.config.serverCookiePath, {
+            fetch(this.config.serverURL + this.config.serverCookiePath, {
                 method: 'post',
                 credentials: 'include',
                 body: JSON.stringify({ 'resource_token': this.config.resourceToken }),
@@ -411,11 +411,24 @@
                 case "Safari":
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData)
-                    this.sendCookies().then(function () {
-                        let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData);
-                        that.initialiseSafariPush(permissionData, match, update, that.config.cookieID, customData);
+                    that.debug("Permission data: ", permissionData);
+                    fetch(that.config.serverURL + that.config.serverCookiePath, {
+                        method: 'post',
+                        credentials: 'include',
+                        body: JSON.stringify({ 'resource_token': this.config.resourceToken }),
+                    }).then(function(response) {
+                        return response.json();
+                    }).then(function(data) {
+                        if ('cookie_id' in data) {
+                            let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                            that.config.cookieID = data['cookie_id'];
+                            that.debug("Permission data: ", permissionData);
+                            that.initialiseSafariPush(permissionData, match, update, that.config.cookieID, customData);
+                        } else {
+                            console.error('Invalid response for set cookie:', data);
+                        }
+                    }).catch(function(e) {
+                        console.error('Unable to set cookie', e);
                     });
                     break;
                 default:
