@@ -10,13 +10,17 @@ index.html
 
 <button id="mybutton">кнопка</button>
 <script>
-var akPush = new AKPush();
-document.getElementById('mybutton').onclick = akPush.initSubscription
+document.getElementById('mybutton').onclick = function() {
+	var akPush = new AKPush()
+	try {
+   		akPush.initSubscription() // Show push subscribe browser popup
+   		console.log("success")
+	} catch (e) {
+   		console.log(e);
+ 	}
+}
 </script>
 	
-	
-
-
 <h1>Hello World3</h1>
 <p>I'm hosted with GitHub Pages.</p>
   
