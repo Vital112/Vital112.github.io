@@ -435,18 +435,18 @@
         switch (permissionData.permission) {
             case 'default':
                 window.safari.pushNotification.requestPermission(
-                    this.config.browsers.Safari.websitePushAPI,
-                    this.config.browsers.Safari.websitePushID,
+                    AKPush.config.browsers.Safari.websitePushAPI,
+                    AKPush.config.browsers.Safari.websitePushID,
                     Object.assign({}, customData || {}, {
-                        'resource_token': this.config.resourceToken,
+                        'resource_token': AKPush.config.resourceToken,
                         'cookie_id': cookieId,
                         'match': JSON.stringify(match || {}),
                         'update': JSON.stringify(update || {}),
-                        'is_test': JSON.stringify(this.config.isTest),
+                        'is_test': JSON.stringify(AKPush.config.isTest),
                     }),
                     function(permissionData) {
                         that.debug("New permissionData: ", permissionData)
-                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
+                        initialiseSafariPush(permissionData, match, update, cookieId, customData, callback);
                     }
                 );
                 break;
