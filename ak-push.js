@@ -267,6 +267,7 @@
         };
 
         this.initialiseSafariPush = function(permissionData, match, update, cookieId, customData, callback) {
+            console.log(cookieId);
             switch (permissionData.permission) {
                 case 'default':
                     window.safari.pushNotification.requestPermission(
