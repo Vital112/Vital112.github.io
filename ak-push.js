@@ -7,9 +7,9 @@
 //     // ...
 // }
 
-(function (window) {
+(function(window) {
 
-    ['firebase-app.js', 'firebase-messaging.js'].map(function(f){
+    ['firebase-app.js', 'firebase-messaging.js'].map(function(f) {
         var s = document.createElement("script");
         s.async = false;
         s.defer = false;
@@ -30,13 +30,13 @@
         },
         browsers: {
             "Chrome": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
             },
             "Opera": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Safari": {
                 websitePushID: "",
@@ -342,8 +342,8 @@
 
         this.getSWPath = function() {
             if (this.config.browser == "Chrome") {
-                let expTime = (this.config.expirationSWChrome != "0") ? this.config.expirationSWChrome  : "900"
-                return this.config.swPath + "?browser=" + this.config.browser + "&expiration="+ Math.floor(Date.now() / (parseInt(expTime, 10) * 1000));
+                let expTime = (this.config.expirationSWChrome != "0") ? this.config.expirationSWChrome : "900"
+                return this.config.swPath + "?browser=" + this.config.browser + "&expiration=" + Math.floor(Date.now() / (parseInt(expTime, 10) * 1000));
             } else {
                 return this.config.swPath + "?browser=" + this.config.browser;
             }
@@ -393,7 +393,7 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData)
-                    that.initialiseSafariPush(permissionData, match, update,  cookieID, customData);
+                    that.initialiseSafariPush(permissionData, match, update, cookieID, customData);
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
@@ -418,31 +418,31 @@
     setCookies();
     var cookieID;
 
-function setCookies() {
-    if ('safari' in window && 'pushNotification' in window.safari) { //Safari detection patch
+    function setCookies() {
+        if ('safari' in window && 'pushNotification' in window.safari) { //Safari detection patch
 
-        let serverCookiePath = "/pixel?" + ["_push_pix", "/set_cookie_only"].join("=");
-        let serverPrefix = "https://";
-        let apiServerHost = injectedConfig.apiServerHost;
-        let serverURL = String(serverPrefix + apiServerHost).replace(/\/+$/, "");
-        let resourceToken = injectedConfig.resourceToken;
+            let serverCookiePath = "/pixel?" + ["_push_pix", "/set_cookie_only"].join("=");
+            let serverPrefix = "https://";
+            let apiServerHost = injectedConfig.apiServerHost;
+            let serverURL = String(serverPrefix + apiServerHost).replace(/\/+$/, "");
+            let resourceToken = injectedConfig.resourceToken;
 
-        fetch(serverURL + serverCookiePath, {
-            method: 'post',
-            credentials: 'include',
-            body: JSON.stringify({ 'resource_token': resourceToken }),
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data) {
-            if ('cookie_id' in data) {
-                cookieID = data['cookie_id']
-            } else {
-                console.error('Invalid response for set cookie:', data);
-            }
-        }).catch(function(e) {
-            console.error('Unable to set cookie', e);
-        });
+            fetch(serverURL + serverCookiePath, {
+                method: 'post',
+                credentials: 'include',
+                body: JSON.stringify({ 'resource_token': resourceToken }),
+            }).then(function(response) {
+                return response.json();
+            }).then(function(data) {
+                if ('cookie_id' in data) {
+                    cookieID = data['cookie_id']
+                } else {
+                    console.error('Invalid response for set cookie:', data);
+                }
+            }).catch(function(e) {
+                console.error('Unable to set cookie', e);
+            });
+        }
     }
-}
 
 })(window);
