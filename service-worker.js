@@ -2,26 +2,26 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "J9RsT5ZrRcc-ba448efaa4ae6dc6",
+        resourceToken: "eyP4kUiyrns-ef5221d7b66a1b5e",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyDZGUVa5WAYJDkL9hYpCrpxLLfHuWAsEtc",
-            projectId: "push-d3d47",
-            messagingSenderId: "353170787939",
+            apiKey: "",
+            projectId: "",
+            messagingSenderId: "",
         },
         browsers: {
             "Chrome": {
                 isFirebase: "false" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "",
+                websitePushID: "web.io.github.vital112",
                 websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         }
