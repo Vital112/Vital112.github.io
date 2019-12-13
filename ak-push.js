@@ -370,7 +370,6 @@
         }
 
         this._initSubscription = function(match, update, customData) {
-            let it = initSafari();
             switch (this.config.browser) {
                 case "Chrome":
                 case "Firefox":
@@ -411,13 +410,14 @@
                     }
                     break;
                 case "Safari":
-                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
+                    let it = initSafari();
+                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari");
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
                     it.next();
                     it.next();
 
-                function* initSafari() {
+                function *initSafari() {
                     try {
                         yield getCookies();
                     } catch (e) {
@@ -453,7 +453,7 @@
                 function examplePush(data, match, update, id, custom) {
                     that.initialiseSafariPush(data, match, update,  id, custom);
                 }
-                
+
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
