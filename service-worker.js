@@ -15,10 +15,10 @@
                 isFirebase: "true" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Safari": {
                 websitePushID: "",
