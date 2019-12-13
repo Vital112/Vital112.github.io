@@ -2,7 +2,7 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "7cdqNkLPzQH-c99861b55eb332f1",
+        resourceToken: "J9RsT5ZrRcc-ba448efaa4ae6dc6",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
