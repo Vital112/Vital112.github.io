@@ -1,6 +1,5 @@
 // Usage:
 // var akPush = new AKPush()
-// akPush.sendCookies();
 // try {
 //     akPush.initSubscription() // Show push subscribe browser popup
 //     // ...
@@ -21,17 +20,17 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
+        resourceToken: "7cdqNkLPzQH-c99861b55eb332f1",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "",
-            projectId: "",
-            messagingSenderId: "",
+            apiKey: "AIzaSyDZGUVa5WAYJDkL9hYpCrpxLLfHuWAsEtc",
+            projectId: "push-d3d47",
+            messagingSenderId: "353170787939",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
@@ -40,7 +39,7 @@
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "web.io.github.vital112",
+                websitePushID: "",
                 websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
@@ -182,24 +181,6 @@
             }).catch(function(e) {
                 console.error("Can't post", action, e)
             })
-        }
-
-        this.sendCookies = function() {
-            fetch(this.config.serverURL + this.config.serverCookiePath, {
-                method: 'post',
-                credentials: 'include',
-                body: JSON.stringify({ 'resource_token': this.config.resourceToken }),
-            }).then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                if ('cookie_id' in data) {
-                    that.config.cookieID = data['cookie_id']
-                } else {
-                    console.error('Invalid response for set cookie:', data);
-                }
-            }).catch(function(e) {
-                console.error('Unable to set cookie', e);
-            });
         }
 
         this.localToken = function(new_token) {
@@ -411,7 +392,7 @@
                 case "Safari":
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData);
+                    that.debug("Permission data: ", permissionData)
                     that.initialiseSafariPush(permissionData, match, update,  cookieID, customData);
                     break;
                 default:
