@@ -501,7 +501,6 @@
 
         return Promise.resolve()
                       .then( function handleNext(value) {
-                            yield
                           var next = it.next(value);
                             return (function handleResult(next) {
                                         if (next.done) {
@@ -515,9 +514,9 @@
                                                                 it.throw(err)
                                                             ).then(handleResult)
                                                 }
-                                            )
+                                            );
                                         }
-                            })
+                            })(next)
                       })
     }
 
