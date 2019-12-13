@@ -267,7 +267,6 @@
         };
 
         this.initialiseSafariPush = function(permissionData, match, update, cookieId, customData, callback) {
-            console.log(cookieId);
             switch (permissionData.permission) {
                 case 'default':
                     window.safari.pushNotification.requestPermission(
@@ -410,69 +409,10 @@
                     }
                     break;
                 case "Safari":
-                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari");
+                    this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                    that.debug("Permission data: ", permissionData);
-                    run(initPush)
-
-                    function *initPush() {
-                            let getCookie = fetch(that.config.serverURL + that.config.serverCookiePath, {
-                                method: 'post',
-                                credentials: 'include',
-                                body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
-                            }).then(function(response) {
-                                return response.json();
-                            }).then(function(data) {
-                                if ('cookie_id' in data) {
-                                    that.config.cookieID = data['cookie_id']
-                                } else {
-                                    console.error('Invalid response for set cookie:', data);
-                                }
-                            }).catch(function(e) {
-                                console.error('Unable to set cookie', e);
-                            });
-
-                            let result = yield getCookie;
-
-                            yield that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
-                    }
-                // function *initSafari() {
-                //     try {
-                //         yield getCookies();
-                //     } catch (e) {
-                //         console.log(e);
-                //     }
-                //
-                //     try {
-                //         yield examplePush(permissionData, match, update, that.config.cookieID, customData);
-                //     } catch (e) {
-                //         console.log(e);
-                //     }
-                // }
-                //
-                // function getCookies() {
-                //     fetch(that.config.serverURL + that.config.serverCookiePath, {
-                //         method: 'post',
-                //         credentials: 'include',
-                //         body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
-                //     }).then(function(response) {
-                //         return response.json();
-                //     }).then(function(data) {
-                //         if ('cookie_id' in data) {
-                //             that.config.cookieID = data['cookie_id']
-                //         } else {
-                //             console.error('Invalid response for set cookie:', data);
-                //         }
-                //         it.next();
-                //     }).catch(function(e) {
-                //         console.error('Unable to set cookie', e);
-                //         it.throw(e);
-                //     });
-                // }
-                // function examplePush(data, match, update, id, custom) {
-                //     that.initialiseSafariPush(data, match, update,  id, custom);
-                // }
-
+                    that.debug("Permission data: ", permissionData)
+                    that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
@@ -494,30 +434,14 @@
         window.AKPush = _akpush;
     }
 
-    function run(gen) {
-        var args = [].slice.call(arguments, 1), it;
+    setCookies();
+    
+function setCookies() {
+    if ('safari' in window && 'pushNotification' in window.safari) { //Safari detection patch
+        _akpush.config.browser = "Safari";
 
-        it = gen.apply(this, args);
-
-        return Promise.resolve()
-                      .then( function handleNext(value) {
-                          var next = it.next(value);
-                            return (function handleResult(next) {
-                                        if (next.done) {
-                                            return next.value;
-                                        }
-                                        else {
-                                            return Promise.resolve(next.value).then(
-                                                handleNext,
-                                                function handleErr(err) {
-                                                            return Promise.resolve(
-                                                                it.throw(err)
-                                                            ).then(handleResult)
-                                                }
-                                            );
-                                        }
-                            })(next)
-                      })
+        _akpush.sendCookies();
     }
+}
 
 })(window);
