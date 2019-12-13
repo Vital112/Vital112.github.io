@@ -414,7 +414,7 @@
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
                     it.next();
-                   // that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
+                    that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
