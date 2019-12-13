@@ -1,7 +1,7 @@
 // Usage:
-//
+// var akPush = new AKPush()
+// akPush.sendCookies();
 // try {
-//     var akPush = new AKPush()
 //     akPush.initSubscription() // Show push subscribe browser popup
 //     // ...
 // } catch (e) {
@@ -21,17 +21,17 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "7cdqNkLPzQH-c99861b55eb332f1",
+        resourceToken: "q2rbfgi17XQ-8bd58a5e46439e8f",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyDQ-6DIx_c6HaSPzLo5t9gGBBX9Nungn3U",
-            projectId: "test-4c1df",
-            messagingSenderId: "571523634324",
+            apiKey: "",
+            projectId: "",
+            messagingSenderId: "",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
@@ -40,7 +40,7 @@
                 isFirebase: "false" === "true"
             },
             "Safari": {
-                websitePushID: "",
+                websitePushID: "web.io.github.vital112",
                 websitePushAPI: "https://pxl.vitaly-rizaev.dev.altkraft.com/ap",
             },
         },
@@ -121,6 +121,7 @@
             serverCookiePath: "/pixel?" + ["_push_pix", "/set_cookie_only"].join("="),
             swPath: "/service-worker.js",
             isTest: false,
+            cookieID: "",
             debug: false,
             browsers: {},
             firebase: {
@@ -183,7 +184,7 @@
             })
         }
 
-        this.sendCookies = function(callback) {
+        this.sendCookies = function() {
             fetch(this.config.serverURL + this.config.serverCookiePath, {
                 method: 'post',
                 credentials: 'include',
@@ -192,7 +193,7 @@
                 return response.json();
             }).then(function(data) {
                 if ('cookie_id' in data) {
-                    callback(data['cookie_id']);
+                    that.config.cookieID = data['cookie_id']
                 } else {
                     console.error('Invalid response for set cookie:', data);
                 }
@@ -368,6 +369,7 @@
         }
 
         this._initSubscription = function(match, update, customData) {
+            let it = initSafari();
             switch (this.config.browser) {
                 case "Chrome":
                 case "Firefox":
@@ -409,14 +411,42 @@
                     break;
                 case "Safari":
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari")
-                    this.sendCookies(function(cookieId) { //TODO: m.b. this works slowly
-                        let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
-                        that.debug("Permission data: ", permissionData)
-                        that.initialiseSafariPush(permissionData, match, update, cookieId, customData);
-                    });
+                    let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
+                    that.debug("Permission data: ", permissionData);
+                    it.next();
+                   // that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
+            }
+
+            function *initSafari() {
+                try {
+                    yield getCookies();
+                }
+                catch (e) {
+                    console.log(e);
+                }
+            }
+
+            function getCookies() {
+                fetch(that.config.serverURL + that.config.serverCookiePath, {
+                    method: 'post',
+                    credentials: 'include',
+                    body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
+                }).then(function(response) {
+                    return response.json();
+                }).then(function(data) {
+                    if ('cookie_id' in data) {
+                        that.config.cookieID = data['cookie_id']
+                    } else {
+                        console.error('Invalid response for set cookie:', data);
+                    }
+                    it.next();
+                }).catch(function(e) {
+                    console.error('Unable to set cookie', e);
+                    it.throw(e);
+                });
             }
         }
 
