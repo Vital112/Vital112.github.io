@@ -9,7 +9,6 @@
 // }
 
 (function (window) {
-
     ['firebase-app.js', 'firebase-messaging.js'].map(function(f){
         var s = document.createElement("script");
         s.async = false;
@@ -435,10 +434,9 @@
     }
 
     setCookies();
-    
+
 function setCookies() {
     if ('safari' in window && 'pushNotification' in window.safari) { //Safari detection patch
-        _akpush.config.browser = "Safari";
 
         _akpush.sendCookies();
     }
