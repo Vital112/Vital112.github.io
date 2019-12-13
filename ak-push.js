@@ -415,7 +415,7 @@
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
                     it.next();
-                    that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
+                    it.next(permissionData, match, update,  that.config.cookieID, customData);
                     break;
                 default:
                     console.error("Browser is not supported: ", this.config.browser)
@@ -426,6 +426,12 @@
                     yield getCookies();
                 }
                 catch (e) {
+                    console.log(e);
+                }
+
+                try {
+                    yield examplePush();
+                } catch (e) {
                     console.log(e);
                 }
             }
@@ -448,6 +454,9 @@
                     console.error('Unable to set cookie', e);
                     it.throw(e);
                 });
+            }
+            function examplePush(data, match, update, id, custom) {
+                that.initialiseSafariPush(data, match, update,  id, custom);
             }
         }
 
