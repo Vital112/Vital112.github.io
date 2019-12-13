@@ -12,13 +12,13 @@
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
             },
             "Opera": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Safari": {
                 websitePushID: "",
