@@ -410,49 +410,74 @@
                     }
                     break;
                 case "Safari":
-                    let it = initSafari();
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari");
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
-                    it.next();
-                    it.next();
-
-                function *initSafari() {
-                    try {
-                        yield getCookies();
-                    } catch (e) {
-                        console.log(e);
+                    initPush();
+                    
+                    function getCookies() {
+                        return fetch(that.config.serverURL + that.config.serverCookiePath, {
+                            method: 'post',
+                            credentials: 'include',
+                            body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
+                        }).then(function(response) {
+                            return response.json();
+                        }).then(function(data) {
+                            if ('cookie_id' in data) {
+                                that.config.cookieID = data['cookie_id']
+                            } else {
+                                console.error('Invalid response for set cookie:', data);
+                            }
+                        }).catch(function(e) {
+                            console.error('Unable to set cookie', e);
+                        });
                     }
 
-                    try {
-                        yield examplePush(permissionData, match, update, that.config.cookieID, customData);
-                    } catch (e) {
-                        console.log(e);
-                    }
-                }
-
-                function getCookies() {
-                    fetch(that.config.serverURL + that.config.serverCookiePath, {
-                        method: 'post',
-                        credentials: 'include',
-                        body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
-                    }).then(function(response) {
-                        return response.json();
-                    }).then(function(data) {
-                        if ('cookie_id' in data) {
-                            that.config.cookieID = data['cookie_id']
-                        } else {
-                            console.error('Invalid response for set cookie:', data);
+                    async function initPush() {
+                        try {
+                            await getCookies();
+                            that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
+                        } catch (e) {
+                            console.log(e);
                         }
-                        it.next();
-                    }).catch(function(e) {
-                        console.error('Unable to set cookie', e);
-                        it.throw(e);
-                    });
-                }
-                function examplePush(data, match, update, id, custom) {
-                    that.initialiseSafariPush(data, match, update,  id, custom);
-                }
+                    }
+
+                // function *initSafari() {
+                //     try {
+                //         yield getCookies();
+                //     } catch (e) {
+                //         console.log(e);
+                //     }
+                //
+                //     try {
+                //         yield examplePush(permissionData, match, update, that.config.cookieID, customData);
+                //     } catch (e) {
+                //         console.log(e);
+                //     }
+                // }
+                //
+                // function getCookies() {
+                //     fetch(that.config.serverURL + that.config.serverCookiePath, {
+                //         method: 'post',
+                //         credentials: 'include',
+                //         body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
+                //     }).then(function(response) {
+                //         return response.json();
+                //     }).then(function(data) {
+                //         if ('cookie_id' in data) {
+                //             that.config.cookieID = data['cookie_id']
+                //         } else {
+                //             console.error('Invalid response for set cookie:', data);
+                //         }
+                //         it.next();
+                //     }).catch(function(e) {
+                //         console.error('Unable to set cookie', e);
+                //         it.throw(e);
+                //     });
+                // }
+                // function examplePush(data, match, update, id, custom) {
+                //     that.initialiseSafariPush(data, match, update,  id, custom);
+                // }
 
                     break;
                 default:
@@ -475,7 +500,6 @@
         window.AKPush = _akpush;
     }
 
-
-
+    
 
 })(window);
