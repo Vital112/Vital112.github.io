@@ -413,35 +413,29 @@
                     this.debug("Initialise subscription for: " + this.config.browser + " with Safari");
                     let permissionData = window.safari.pushNotification.permission(that.config.browsers.Safari.websitePushID);
                     that.debug("Permission data: ", permissionData);
-                    initPush();
-                    
-                    function getCookies() {
-                        return fetch(that.config.serverURL + that.config.serverCookiePath, {
-                            method: 'post',
-                            credentials: 'include',
-                            body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
-                        }).then(function(response) {
-                            return response.json();
-                        }).then(function(data) {
-                            if ('cookie_id' in data) {
-                                that.config.cookieID = data['cookie_id']
-                            } else {
-                                console.error('Invalid response for set cookie:', data);
-                            }
-                        }).catch(function(e) {
-                            console.error('Unable to set cookie', e);
-                        });
-                    }
+                    run(initPush)
 
-                    async function initPush() {
-                        try {
-                            await getCookies();
-                            that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    }
+                    function *initPush() {
+                            let getCookie = fetch(that.config.serverURL + that.config.serverCookiePath, {
+                                method: 'post',
+                                credentials: 'include',
+                                body: JSON.stringify({ 'resource_token': that.config.resourceToken }),
+                            }).then(function(response) {
+                                return response.json();
+                            }).then(function(data) {
+                                if ('cookie_id' in data) {
+                                    that.config.cookieID = data['cookie_id']
+                                } else {
+                                    console.error('Invalid response for set cookie:', data);
+                                }
+                            }).catch(function(e) {
+                                console.error('Unable to set cookie', e);
+                            });
 
+                            let result = yield getCookie;
+
+                            yield that.initialiseSafariPush(permissionData, match, update,  that.config.cookieID, customData);
+                    }
                 // function *initSafari() {
                 //     try {
                 //         yield getCookies();
@@ -500,6 +494,31 @@
         window.AKPush = _akpush;
     }
 
-    
+    function run(gen) {
+        var args = [].slice.call(arguments, 1), it;
+
+        it = gen.apply(this, args);
+
+        return Promise.resolve()
+                      .then( function handleNext(value) {
+                            yield
+                          var next = it.next(value);
+                            return (function handleResult(next) {
+                                        if (next.done) {
+                                            return next.value;
+                                        }
+                                        else {
+                                            return Promise.resolve(next.value).then(
+                                                handleNext,
+                                                function handleErr(err) {
+                                                            return Promise.resolve(
+                                                                it.throw(err)
+                                                            ).then(handleResult)
+                                                }
+                                            )
+                                        }
+                            })
+                      })
+    }
 
 })(window);
