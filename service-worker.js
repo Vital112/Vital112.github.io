@@ -6,9 +6,9 @@
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyDZGUVa5WAYJDkL9hYpCrpxLLfHuWAsEtc",
-            projectId: "push-d3d47",
-            messagingSenderId: "353170787939",
+            apiKey: "AIzaSyBNNKfgpdO0j6MjhRguUZPaV4V_ApTchY4",
+            projectId: "pushok-a6296",
+            messagingSenderId: "121700566990",
         },
         browsers: {
             "Chrome": {
