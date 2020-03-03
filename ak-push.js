@@ -20,7 +20,7 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "nNMC4yiMXxR-baa67ce4cd44863d",
+        resourceToken: "kEzcB5UTrcK-90514f070cf53624",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
@@ -30,10 +30,10 @@
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
                 isFirebase: "false" === "true"
