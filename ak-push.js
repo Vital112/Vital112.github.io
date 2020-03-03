@@ -20,20 +20,20 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "6y6YS1go6j5-9576e30932f6e0a9",
+        resourceToken: "JzopzRwaSK6-3ebd1e5d41fbae13",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyBNNKfgpdO0j6MjhRguUZPaV4V_ApTchY4",
-            projectId: "pushok-a6296",
-            messagingSenderId: "121700566990",
+            apiKey: "AIzaSyCPQ_VUTIj8Kv1rQxvKUjWgf9Ov_YbB30k",
+            projectId: "push-fcbd2",
+            messagingSenderId: "61964925232",
         },
         browsers: {
             "Chrome": {
                 isFirebase: "true" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
                 isFirebase: "false" === "true"
@@ -242,9 +242,21 @@
                     // }).catch(function(e) {
                     //     console.error("Can't send deliv action ", e)
                     // })
-                    new Notification(title, notificationOptions);
+                    showNotification(title, notificationOptions);
+                    //new Notification(title, notificationOptions);
                 }
             );
+
+            function showNotification(title, options) {
+                Notification.requestPermission(function(result) {
+                    if (result === 'granted') {
+                        navigator.serviceWorker.ready.then(function(registration) {
+                            registration.showNotification(title, options);
+                        });
+                    }
+                });
+            }
+
         };
 
         this.initialiseSafariPush = function(permissionData, match, update, cookieId, customData, callback) {
