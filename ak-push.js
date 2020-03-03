@@ -242,20 +242,10 @@
                     // }).catch(function(e) {
                     //     console.error("Can't send deliv action ", e)
                     // })
-                    showNotification(title, notificationOptions);
-                    //new Notification(title, notificationOptions);
+
+                    new Notification(title, notificationOptions);
                 }
             );
-
-            function showNotification(title, options) {
-                Notification.requestPermission(function(result) {
-                    if (result === 'granted') {
-                        navigator.serviceWorker.ready.then(function(registration) {
-                            registration.showNotification(title, options);
-                        });
-                    }
-                });
-            }
 
         };
 
