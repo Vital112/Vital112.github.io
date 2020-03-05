@@ -20,13 +20,13 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "fietQczWvho-684c31c1d2bd6d86",
+        resourceToken: "z96WpKTwekx-a3766976bc8a2145",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyCPQ_VUTIj8Kv1rQxvKUjWgf9Ov_YbB30k",
-            projectId: "push-fcbd2",
-            messagingSenderId: "61964925232",
+            apiKey: "AIzaSyDZGUVa5WAYJDkL9hYpCrpxLLfHuWAsEtc",
+            projectId: "push-d3d47",
+            messagingSenderId: "353170787939",
         },
         browsers: {
             "Chrome": {
