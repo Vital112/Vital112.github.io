@@ -20,20 +20,20 @@
     var injectedConfig = {
         debug: "false" === "true",
         isTest: "false" === "true",
-        resourceToken: "z96WpKTwekx-a3766976bc8a2145",
+        resourceToken: "uR7WVK3vGNS-3d324a440d790ecc",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyD77FwCWpKMX8n21ebmibur6FeaKYc3KFw",
-            projectId: "ssss-ee300",
-            messagingSenderId: "8130499537",
+            apiKey: "AIzaSyDZGUVa5WAYJDkL9hYpCrpxLLfHuWAsEtc",
+            projectId: "push-d3d47",
+            messagingSenderId: "353170787939",
         },
         browsers: {
             "Chrome": {
                 isFirebase: "true" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
                 isFirebase: "false" === "true"
