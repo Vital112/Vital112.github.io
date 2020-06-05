@@ -30,10 +30,10 @@
         },
         browsers: {
             "Chrome": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Firefox": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Opera": {
                 isFirebase: "false" === "true"
