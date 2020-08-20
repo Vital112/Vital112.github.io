@@ -1,1 +1,1 @@
-importScripts('https://pxl.vitaly-rizaev.dev.altkraft.com/service-worker.js?id=MXw2MA..');
+importScripts('https://pxl.vitaly-rizaev.dev.altkraft.com/service-worker.js?id=MXw1OQ..');
