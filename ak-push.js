@@ -20,22 +20,28 @@
     var injectedConfig = {
         debug: "true" === "true",
         isTest: "false" === "true",
-        resourceToken: "ajVFSBEdPEs-021a540b1f2cf9aa",
+        resourceToken: "Drz2Fak7okx-a4f7b8e238728fde",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyCSBSKzDq9DKSNcaNVZbegRPzTq2e2boo0",
-            projectId: "push-chrome-662a4",
-            messagingSenderId: "311181328052",
+            apiKey: "",
+            projectId: "",
+            messagingSenderId: "",
         },
         browsers: {
             "Chrome": {
                 isFirebase: "false" === "true"
             },
             "Firefox": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Opera": {
+                isFirebase: "false" === "true"
+            },
+            "Yandex Browser": {
+                isFirebase: "true" === "true"
+            },
+            "Samsung Internet for Android": {
                 isFirebase: "false" === "true"
             },
             "Safari": {
@@ -365,6 +371,8 @@
             switch (this.config.browser) {
                 case "Chrome":
                 case "Firefox":
+                case "Yandex Browser":
+                case "Samsung Internet for Android":
                 case "Opera":
                     if (this.isSWorker()) {
                         if (this.isFirebase()) {
@@ -387,7 +395,7 @@
                                 that.initialiseFirebasePush(match, update, customData);
                             });
                         } else {
-                            if (this.config.browser == "Opera") {
+                            if (this.config.browser == "Opera" || this.config.browser == "Yandex Browser" || this.config.browser == "Samsung Internet for Android") {
                                 console.error("Only firebase supported");
                                 return
                             }
