@@ -211,7 +211,7 @@
                             let subscription = {
                                 endpoint: token
                             };
-                            that.sendSubscription("save", getNormalizedProvider() + "Firebase", subscription, match, update, customData);
+                            that.sendSubscription("save", getNormalizedProvider(that.config.browser) + "Firebase", subscription, match, update, customData);
                         }
                         that.localToken(token);
                     }
@@ -304,7 +304,7 @@
         this.subscribeBasic = function(match, update, customData) {
             navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
                 serviceWorkerRegistration.pushManager.subscribe({ userVisibleOnly: true }).then(function(subscription) {
-                    that.sendSubscription("save", getNormalizedProvider(), subscription, match, update, customData);
+                    that.sendSubscription("save", getNormalizedProvider(that.config.browser), subscription, match, update, customData);
                 }).catch(function(err) {
                     if (Notification.permission === 'denied') {
                         console.log('User turned off notifications');
@@ -354,8 +354,8 @@
             }
         }
 
-        var getNormalizedProvider = function() {
-            return this.config.browser.split (" ") .join ("");
+        var getNormalizedProvider = function(provider) {
+            return provider.split (" ") .join ("");
         }
 
         this.isSWorker = function() {
