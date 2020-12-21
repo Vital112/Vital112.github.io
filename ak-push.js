@@ -20,17 +20,17 @@
     var injectedConfig = {
         debug: "true" === "true",
         isTest: "false" === "true",
-        resourceToken: "Drz2Fak7okx-a4f7b8e238728fde",
+        resourceToken: "g7ojkc44ncm-7fd8039ee5b54b90",
         apiServerHost: "pxl.vitaly-rizaev.dev.altkraft.com",
         swPath: "/service-worker.js",
         firebase: {
-            apiKey: "AIzaSyDseFqW5zNtUyTXaFiIq_X4VsQkC22kVhc",
-            projectId: "push-yandex",
-            messagingSenderId: "881186395100",
+            apiKey: "AAAA33PN0QA:APA91bE1vVvYsrM72Oa8jX_yH7X5mI0WdYrCiSk0Mlj7K-QlBFG6jaTdhaDMWWXP-MHTdIxO3yQeL5r0Pn0hFjr02xfX3yjM8i53Kcqlv7ZTUYXMy9gQPomd34d9RkgxIrVDpb8OOQDv	",
+            projectId: "push-b3938",
+            messagingSenderId: "959720575232",
         },
         browsers: {
             "Chrome": {
-                isFirebase: "false" === "true"
+                isFirebase: "true" === "true"
             },
             "Firefox": {
                 isFirebase: "false" === "true"
@@ -39,7 +39,7 @@
                 isFirebase: "false" === "true"
             },
             "Yandex Browser": {
-                isFirebase: "true" === "true"
+                isFirebase: "false" === "true"
             },
             "Samsung Internet for Android": {
                 isFirebase: "false" === "true"
@@ -228,8 +228,11 @@
                     var notificationOptions = {
                         body: payload.notification.body,
                         icon: payload.notification.icon,
-                        click_action: payload.notification.click_action
+                        image: payload.notification.image,
+                        data: payload.notification.click_action
                     };
+                    notificationOptions.actions = payload.notification.actions
+
                     // var openLink = JSON.parse(payload.data.hub_link).open
                     // var delivLink = JSON.parse(payload.data.hub_link).ack
                     // console.log("do open link")
